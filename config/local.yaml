@@ -15,5 +15,5 @@ http_server:
   idle_timeout: 60s
 
 grpc:
-  port: 44044
+  port: 8086
   timeout: 10h

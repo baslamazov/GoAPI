@@ -1,7 +1,7 @@
-package auth
+package authgrpc
 
 import (
-	"GRPC-API/protos/gen/proto"
+	"GoAPI/protos/gen/proto"
 	"context"
 
 	"google.golang.org/grpc"
@@ -15,7 +15,7 @@ func Register(gRPC *grpc.Server) {
 	proto.RegisterAuthServer(gRPC, &serverAPI{})
 }
 func (server *serverAPI) Login(ctx context.Context, req *proto.LoginRequest) (*proto.LoginResponse, error) {
-	panic("non implement")
+	return &proto.LoginResponse{Token: "token"}, nil
 }
 func (server *serverAPI) Register(ctx context.Context, req *proto.CreateRequest) (*proto.CreateResponse, error) {
 	panic("non implement")

@@ -3,6 +3,7 @@ package main
 import (
 	"GoAPI/internal/config"
 	"GoAPI/internal/pkg/app"
+	"fmt"
 	"log/slog"
 	"os"
 )
@@ -20,9 +21,10 @@ func main() {
 	log.Info("Starting server", slog.String("env", conf.Env))
 	log.Debug("debug message enabled")
 
-	app, _ := app.New(conf)
+	app, _ := app.New(conf, log)
 
 	app.Start()
+	fmt.Scanln()
 
 }
 func setupLogger(env string) *slog.Logger {

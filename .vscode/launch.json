@@ -9,7 +9,7 @@
             "type": "go",  
             "request": "launch",  
             "mode": "auto",  
-            "program": "${workspaceFolder}/cmd/REST-API/main.go", // Укажите путь к вашему главному файлу  
+            "program": "${workspaceFolder}/cmd/GoAPI/main.go", // Укажите путь к вашему главному файлу  
             "env": {}, // Здесь вы можете указать переменные окружения  
             "args": [] // Здесь вы можете указать аргументы командной строки  
         }  

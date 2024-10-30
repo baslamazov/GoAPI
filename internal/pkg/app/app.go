@@ -2,9 +2,11 @@ package app
 
 import (
 	"GoAPI/internal/app/endpoint"
+	grpcapp "GoAPI/internal/app/grpc"
 	"GoAPI/internal/app/mw"
 	"GoAPI/internal/config"
 	"GoAPI/internal/storage/postgres"
+	"log/slog"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/redis"
@@ -12,16 +14,20 @@ import (
 )
 
 type App struct {
-	handler   *endpoint.Endpoint
-	dbService *postgres.DBService
-	//config    *config.Config
+	handler    *endpoint.Endpoint
+	dbService  *postgres.DBService
+	GRPCServer *grpcapp.App
+	log        *slog.Logger
 }
 
-func New(conf *config.Config) (*App, error) {
-	app := &App{}
+func New(conf *config.Config, log *slog.Logger) (*App, error) {
+	app := &App{
+		log: log,
+	}
 
 	app.dbService = postgres.NewDBService(conf.Database)
 	app.handler = endpoint.New(app.dbService)
+	app.GRPCServer = grpcapp.New(log, conf.GRPC.Port)
 	return app, nil
 }
 
@@ -40,7 +46,9 @@ func (app *App) Start() error {
 	router.POST("/login", app.handler.Auth)
 	apiGroup := router.Group("/api", mw.SessionValidate)
 	apiGroup.GET("/users", app.handler.GetUsers)
-	router.Run(":8083")
+	go router.Run(":8083")
+
+	app.GRPCServer.MustRun()
 
 	return nil
 }
