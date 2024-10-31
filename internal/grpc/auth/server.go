@@ -17,6 +17,6 @@ func Register(gRPC *grpc.Server) {
 func (server *serverAPI) Login(ctx context.Context, req *proto.LoginRequest) (*proto.LoginResponse, error) {
 	return &proto.LoginResponse{Token: "token"}, nil
 }
-func (server *serverAPI) Register(ctx context.Context, req *proto.CreateRequest) (*proto.CreateResponse, error) {
+func (server *serverAPI) SingUp(ctx context.Context, req *proto.CreateRequest) (*proto.CreateResponse, error) {
 	panic("non implement")
 }

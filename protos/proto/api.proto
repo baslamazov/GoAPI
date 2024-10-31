@@ -7,7 +7,6 @@ option go_package = "api.auth.v1;api";
 service Auth {
     rpc CreateUser (CreateRequest) returns (CreateResponse);
     rpc Login (LoginRequest) returns (LoginResponse);
-    //rpc RoleCheck (Request) returns (Response);
 }
 
 message CreateRequest {

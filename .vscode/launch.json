@@ -10,7 +10,10 @@
             "request": "launch",  
             "mode": "auto",  
             "program": "${workspaceFolder}/cmd/GoAPI/main.go", // Укажите путь к вашему главному файлу  
-            "env": {}, // Здесь вы можете указать переменные окружения  
+            "env": {
+                "CONFIG_PATH": "${workspaceFolder}/config/local.yaml",
+                "GIN_MODE": "debug"
+            }, // Здесь вы можете указать переменные окружения  
             "args": [] // Здесь вы можете указать аргументы командной строки  
         }  
     ]  
