@@ -41,7 +41,7 @@ func (db *DBService) CheckUser(login, password string) (bool, error) {
 	err := db.db.QueryRow(context.Background(), `  
         SELECT EXISTS (  
             SELECT 1  
-            FROM users  
+            FROM users
             WHERE login = $1 AND password = $2  
         );  
     `, login, password).Scan(&isExist)

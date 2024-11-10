@@ -1,5 +1,7 @@
 # Используем официальный образ Redis  
-FROM redis:latest  
+FROM redis:7.4.1
+
+
 
 # Устанавливаем рабочую директорию  
 WORKDIR /data  

@@ -13,7 +13,6 @@ RUN chmod -R 755 /docker-entrypoint-initdb.d
 # Указываем переменные окружения для настройки базы данных  
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=postgres
-ENV POSTGRES_DB=mydb
 
 # Указываем порты, которые будет слушать контейнер
 #EXPOSE 5432

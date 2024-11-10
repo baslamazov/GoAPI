@@ -3,9 +3,10 @@ package main
 import (
 	"GoAPI/internal/config"
 	"GoAPI/internal/pkg/app"
-	"fmt"
 	"log/slog"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 const (
@@ -24,7 +25,14 @@ func main() {
 	app, _ := app.New(conf, log)
 
 	app.Start()
-	fmt.Scanln()
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)
+
+	<-stop
+
+	app.GRPCServer.Stop()
+	log.Info("Gracefully stopped")
 
 }
 func setupLogger(env string) *slog.Logger {
