@@ -33,12 +33,37 @@ func CreatePool(constr string) *pgxpool.Pool {
 }
 
 func (db *DBService) GetAllUsers() ([]string, error) {
-	return []string{"пидор"}, nil
+	db.db.Ping(context.Background())
+	conn, _ := db.db.Acquire(context.Background())
+	defer conn.Release()
+
+	var users []string
+
+	rows, _ := conn.Query(context.Background(), `  
+        SELECT (  
+            SELECT login  
+            FROM users 
+        ); 
+    `)
+
+	for rows.Next() {
+		var login string
+		if err := rows.Scan(&login); err != nil {
+			return nil, err // Возвращаем ошибку, если она произошла
+		}
+		users = append(users, login)
+	}
+
+	return users, nil
 }
 func (db *DBService) CheckUser(login, password string) (bool, error) {
 	var isExist bool
+
 	db.db.Ping(context.Background())
-	err := db.db.QueryRow(context.Background(), `  
+	conn, _ := db.db.Acquire(context.Background())
+	defer conn.Release()
+
+	err := conn.QueryRow(context.Background(), `  
         SELECT EXISTS (  
             SELECT 1  
             FROM users
