@@ -3,20 +3,24 @@ package authgrpc
 import (
 	"GoAPI/protos/gen/proto"
 	"context"
-
 	"google.golang.org/grpc"
 )
 
 type serverAPI struct {
-	proto.UnimplementedAuthServer
+	proto.AuthServer
 }
 
-func Register(gRPC *grpc.Server) {
-	proto.RegisterAuthServer(gRPC, &serverAPI{})
+func (server *serverAPI) CreateUser(ctx context.Context, request *proto.CreateRequest) (*proto.CreateResponse, error) {
+	// TODO: Вызвать валидацию и создание пользователя в бд
+	return &proto.CreateResponse{
+		UserId: 1,
+	}, nil
 }
 func (server *serverAPI) Login(ctx context.Context, req *proto.LoginRequest) (*proto.LoginResponse, error) {
+	// TODO: Вызвать валидацию и результат авторизации
+
 	return &proto.LoginResponse{Token: "token"}, nil
 }
-func (server *serverAPI) SingUp(ctx context.Context, req *proto.CreateRequest) (*proto.CreateResponse, error) {
-	panic("non implement")
+func Register(gRPC *grpc.Server) {
+	proto.RegisterAuthServer(gRPC, &serverAPI{})
 }
